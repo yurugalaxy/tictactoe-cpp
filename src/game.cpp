@@ -3,7 +3,7 @@
 #include "game.hpp"
 #include "player.hpp"
 
-BoardArray TicTacToe::BoardState() const
+BoardArray TicTacToe::BoardState()
 {
         return m_board;
 }
@@ -24,37 +24,33 @@ void TicTacToe::PrintBoard() const
                   << '\n';
 }
 
-std::array<int, 2> TicTacToe::ConvertSquare(const int square)
+SquareCoords TicTacToe::ConvertToCoords(const int square)
 {
-        switch (square)
+        if (square < 4)
+                return{0, square - 1};
+        if (square < 7)
+                return{1, square - 4};
+        return {2, square - 7};
+}
+
+int TicTacToe::ConvertToSquare(const SquareCoords coords)
+{
+        switch (coords[0])
         {
+                case 0:
+                        return coords[1] + 1;
                 case 1:
-                        return {0,0};
+                        return coords[1] + 4;
                 case 2:
-                        return {0,1};
-                case 3:
-                        return {0,2};
-                case 4:
-                        return {1,0};
-                case 5:
-                        return {1,1};
-                case 6:
-                        return {1,2};
-                case 7:
-                        return {2,0};
-                case 8:
-                        return {2,1};
-                case 9:
-                        return {2,2};
+                        return coords[1] + 7;
                 default:
-                        return {3,3};
+                        return -1;
         }
 }
 
 void TicTacToe::UpdateBoard(const int square, const char side)
 {
-        std::array <int, 2> converted {};
-        converted = ConvertSquare(square);
+        const SquareCoords converted = ConvertToCoords(square);
         m_board[converted[0]][converted[1]] = side;
 }
 
@@ -73,10 +69,9 @@ bool TicTacToe::isBoardFull()
         return true;
 }
 
-bool TicTacToe::IsValidSquare(const int square) const
+bool TicTacToe::IsSquareValid(const int square)
 {
-        std::array<int, 2> converted{};
-        converted = ConvertSquare(square);
+        const SquareCoords converted = ConvertToCoords(square);
         if (m_board[converted[0]][converted[1]])
         {
                 return false;
@@ -86,24 +81,27 @@ bool TicTacToe::IsValidSquare(const int square) const
 
 WinConditions TicTacToe::TestWinConditions(const char side)
 {
-        const std::array arr {side, side, side};
         int inverse{2};
         WinConditions conditions{};
 
         for (int i {0}; i < 3; ++i)
         {
-                if (m_board[i] == arr)
-                        conditions[0] = 3;
+                if (m_board[0][i] == side)
+                        conditions[rowTop] += 1;
+                if (m_board[1][i] == side)
+                        conditions[rowMid] += 1;
+                if (m_board[2][i] == side)
+                        conditions[rowBot] += 1;
                 if (m_board[i][0] == side)
-                        conditions[1] += 1;
+                        conditions[colLeft] += 1;
                 if (m_board[i][1] == side)
-                        conditions[2] += 1;
+                        conditions[colMid] += 1;
                 if (m_board[i][2] == side)
-                        conditions[3] += 1;
+                        conditions[colRight] += 1;
                 if (m_board[i][i] == side)
-                        conditions[4] += 1;
+                        conditions[diagRight] += 1;
                 if (m_board[i][inverse] == side)
-                        conditions[5] += 1;
+                        conditions[diagLeft] += 1;
                 --inverse;
         }
         return conditions;
@@ -129,30 +127,37 @@ bool TicTacToe::DetermineWinner(const WinConditions& conditions)
         return false;
 }
 
-
 void playGame()
 {
         TicTacToe game;
 
         bool gameOver{};
+        bool isCrossTurn{ true };
         char currentPlayer{ 'x' };
         int currentSquare{};
+        WinConditions currConditions{};
 
         while (!gameOver)
         {
-                while (!game.IsValidSquare(currentSquare))
+                if (isCrossTurn)
                 {
-                        currentSquare = (Player::HumanTurn());
+                        currentPlayer = 'x';
+                        currentSquare = Player::HumanTurn();
+                }
+                else
+                {
+                        currentPlayer = 'o';
+                        currentSquare = Player::EmptyCheck(Player::ComputerTurn(currConditions));
+                        // currentSquare = Player::ComputerTurn(currConditions);
                 }
 
                 game.UpdateBoard(currentSquare, currentPlayer);
-                gameOver = game.DetermineWinner(game.TestWinConditions(currentPlayer));
 
-                if (currentPlayer == 'x')
-                        currentPlayer = 'o';
-                else
-                        currentPlayer = 'x';
+                currConditions = game.TestWinConditions(currentPlayer);
+                gameOver = game.DetermineWinner(currConditions);
 
                 game.PrintBoard();
+
+                isCrossTurn = !isCrossTurn;
         }
 }

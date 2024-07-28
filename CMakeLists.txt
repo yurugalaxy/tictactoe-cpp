@@ -9,4 +9,5 @@ add_executable(titato src/main.cpp
         src/game.hpp
         src/game.cpp
         src/player.hpp
-        src/player.cpp)
+        src/player.cpp
+        src/random.hpp)
