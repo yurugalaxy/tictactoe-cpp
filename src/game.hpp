@@ -2,14 +2,24 @@
 
 #include <array>
 
+using BoardArray = std::array<std::array<char, 3>, 3>;
+
 class TicTacToe
 {
 public:
-        std::array<char, 10> m_board
-        { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        BoardArray m_board {};
 
 public:
-        void PrintBoard();
+        BoardArray BoardState() const;
+
+private:
+        std::array<int, 2> ConvertSquare(int square);
+        bool isBoardFull();
+
+public:
+        void PrintBoard() const;
         void UpdateBoard(int square, char side);
         bool DetermineWinner(char side);
 };
+
+void playGame();
