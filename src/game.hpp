@@ -13,10 +13,11 @@ public:
         BoardArray BoardState() const;
 
 private:
-        std::array<int, 2> ConvertSquare(int square);
         bool isBoardFull();
+        static std::array<int, 2> ConvertSquare(int square);
 
 public:
+        bool IsValidSquare(int square) const;
         void PrintBoard() const;
         void UpdateBoard(int square, char side);
         bool DetermineWinner(char side);

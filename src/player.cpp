@@ -2,6 +2,8 @@
 
 #include "player.hpp"
 
+#include "game.hpp"
+
 void ignoreLine()
 {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),  '\n');
@@ -39,11 +41,12 @@ int Player::TakeTurn()
                 }
 
                 ignoreLine();
+
                 return square;
         }
 }
 
-char Player::GetSide()
+char Player::GetSide() const
 {
         return m_side;
 }

@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "game.hpp"
-
 #include "player.hpp"
 
 BoardArray TicTacToe::BoardState() const
@@ -74,6 +73,18 @@ bool TicTacToe::isBoardFull()
         return true;
 }
 
+bool TicTacToe::IsValidSquare(const int square) const
+{
+        std::array<int, 2> converted{};
+        converted = ConvertSquare(square);
+        if (m_board[converted[0]][converted[1]])
+        {
+                return false;
+        }
+        return true;
+}
+
+
 bool TicTacToe::DetermineWinner(const char side)
 {
         if (isBoardFull())
@@ -116,25 +127,26 @@ bool TicTacToe::DetermineWinner(const char side)
 void playGame()
 {
         TicTacToe game;
-        Player playerOne('x');
-        Player playerTwo('o');
 
         bool gameOver{};
         char currentPlayer{ 'x' };
+        int currentSquare{};
 
         while (!gameOver)
         {
-                if (currentPlayer == 'x')
+                while (!game.IsValidSquare(currentSquare))
                 {
-                        game.UpdateBoard(playerOne.TakeTurn(), currentPlayer);
-                        gameOver = game.DetermineWinner(currentPlayer);
-                        currentPlayer = 'o';
-                } else
-                {
-                        game.UpdateBoard(playerTwo.TakeTurn(), currentPlayer);
-                        gameOver = game.DetermineWinner(currentPlayer);
-                        currentPlayer = 'x';
+                        currentSquare = (Player::TakeTurn());
                 }
+
+                game.UpdateBoard(currentSquare, currentPlayer);
+                gameOver = game.DetermineWinner(currentPlayer);
+
+                if (currentPlayer == 'x')
+                        currentPlayer = 'o';
+                else
+                        currentPlayer = 'x';
+
                 game.PrintBoard();
         }
 }

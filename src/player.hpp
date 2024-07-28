@@ -7,11 +7,11 @@ private:
         static char currentSide;
 
 public:
-        Player(const char side)
+        explicit Player(const char side)
                 : m_side {side}
         {
         }
 
-        int TakeTurn();
-        char GetSide();
+        static int TakeTurn();
+        char GetSide() const;
 };
