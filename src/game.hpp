@@ -3,10 +3,11 @@
 #include <array>
 
 using BoardArray = std::array<std::array<char, 3>, 3>;
+using WinConditions = std::array<int, 6>;
 
 class TicTacToe
 {
-public:
+private:
         BoardArray m_board {};
 
 public:
@@ -20,7 +21,8 @@ public:
         bool IsValidSquare(int square) const;
         void PrintBoard() const;
         void UpdateBoard(int square, char side);
-        bool DetermineWinner(char side);
+        std::array<int, 6> TestWinConditions(char side);
+        bool DetermineWinner(const WinConditions& conditions);
 };
 
 void playGame();

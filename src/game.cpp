@@ -84,45 +84,51 @@ bool TicTacToe::IsValidSquare(const int square) const
         return true;
 }
 
-
-bool TicTacToe::DetermineWinner(const char side)
+WinConditions TicTacToe::TestWinConditions(const char side)
 {
+        const std::array arr {side, side, side};
+        int inverse{2};
+        WinConditions conditions{};
+
+        for (int i {0}; i < 3; ++i)
+        {
+                if (m_board[i] == arr)
+                        conditions[0] = 3;
+                if (m_board[i][0] == side)
+                        conditions[1] += 1;
+                if (m_board[i][1] == side)
+                        conditions[2] += 1;
+                if (m_board[i][2] == side)
+                        conditions[3] += 1;
+                if (m_board[i][i] == side)
+                        conditions[4] += 1;
+                if (m_board[i][inverse] == side)
+                        conditions[5] += 1;
+                --inverse;
+        }
+        return conditions;
+}
+
+bool TicTacToe::DetermineWinner(const WinConditions& conditions)
+{
+
         if (isBoardFull())
         {
                 std::cout << "Draw!\n";
                 return true;
         }
-        const std::array arr {side, side, side};
-        int inverse{2};
-        std::array<int, 6> winCond{};
 
-        for (int i {0}; i < 3; ++i)
-        {
-                if (m_board[i] == arr)
-                        winCond[0] = 3;
-                if (m_board[i][0] == side)
-                        winCond[1] += 1;
-                if (m_board[i][1] == side)
-                        winCond[2] += 1;
-                if (m_board[i][2] == side)
-                        winCond[3] += 1;
-                if (m_board[i][i] == side)
-                        winCond[4] += 1;
-                if (m_board[i][inverse] == side)
-                        winCond[5] += 1;
-                --inverse;
-        }
-
-        for (const int &e : winCond)
+        for (const int &e : conditions)
         {
                 if (e == 3)
                 {
-                        std::cout << side << " wins!\n";
+                        std::cout << "Win!\n";
                         return true;
                 }
         }
         return false;
 }
+
 
 void playGame()
 {
@@ -136,11 +142,11 @@ void playGame()
         {
                 while (!game.IsValidSquare(currentSquare))
                 {
-                        currentSquare = (Player::TakeTurn());
+                        currentSquare = (Player::HumanTurn());
                 }
 
                 game.UpdateBoard(currentSquare, currentPlayer);
-                gameOver = game.DetermineWinner(currentPlayer);
+                gameOver = game.DetermineWinner(game.TestWinConditions(currentPlayer));
 
                 if (currentPlayer == 'x')
                         currentPlayer = 'o';
