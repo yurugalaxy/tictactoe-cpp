@@ -6,10 +6,5 @@ set(CMAKE_CXX_STANDARD 23)
 link_libraries(SDL2)
 
 add_executable(titato src/main.cpp
-        src/game.hpp
-        src/game.cpp
-        src/player.hpp
         src/player.cpp
-        src/random.hpp
-        src/board.hpp
         src/board.cpp)

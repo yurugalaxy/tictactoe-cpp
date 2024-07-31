@@ -79,13 +79,18 @@ bool Board::update(Player* playerPtr, const int square)
 
 bool Board::isWinner(Player* playerPtr)
 {
-        if (isFull())
-                return true;
-
         for (const int &e : playerPtr->history())
         {
                 if (e == 3)
+                {
+                        std::cout << "Player " << playerPtr->ID()
+                                  << " wins!!" << '\n';
                         return true;
+                }
         }
+
+        if (isFull())
+                return true;
+
         return false;
 }

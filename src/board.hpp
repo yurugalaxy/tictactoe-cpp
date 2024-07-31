@@ -26,14 +26,14 @@ private:
         Array2D m_board{};
 
 private:
-        Array2D getBoard() { return m_board; };
         void printBoard();
-
-public:
-        bool update(Player* playerPtr, const int square);
-        bool isWinner(Player* playerPtr);
         bool isFull();
         bool validSquare(const Coordinate& coord);
+
+public:
+        Array2D board() { return m_board; };
+        bool update(Player* playerPtr, const int square);
+        bool isWinner(Player* playerPtr);
         friend void Player::addHistory(const int square);
         friend WinConditions Player::history();
         friend int Player::ID();

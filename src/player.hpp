@@ -2,8 +2,11 @@
 
 #include <array>
 
+#include "board.hpp"
+
 class Player
 {
+        using Array2D = std::array<std::array<int, 3>, 3>;
         using WinConditions = std::array<int, 8>;
         using Coordinate = std::array<int, 2>;
 
@@ -30,8 +33,9 @@ public:
                   m_human { human }
         {}
 
-        int getInput();
+        int playerTurn();
         int ID() { return m_playerID; };
         WinConditions history(){ return m_history; };
         void addHistory(const int square);
+        friend Array2D Board::board();
 };

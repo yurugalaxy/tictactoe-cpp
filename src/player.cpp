@@ -3,7 +3,7 @@
 #include "player.hpp"
 #include "validation.hpp"
 
-int Player::getInput()
+int Player::playerTurn()
 {
         while (true)
         {
@@ -26,6 +26,12 @@ int Player::getInput()
         Validation::ignoreLine();
         return square;
         }
+}
+
+int ComputerTurn()
+{
+        using Array2D = std::array<std::array<int, 3>, 3>;
+        return 0;
 }
 
 void Player::addHistory(const int square)

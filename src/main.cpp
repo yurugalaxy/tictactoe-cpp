@@ -8,11 +8,12 @@ int main()
         Board board;
         Player playerOne(1, true);
         Player playerTwo(2, true);
-        Player* playerPtr { nullptr };
+        Player* playerPtr { &playerOne };
         bool turnCount { true };
 
-        while (true)
+        while (!board.isWinner(playerPtr))
         {
+                turnCount = !turnCount;
                 playerPtr = turnCount ? &playerOne : &playerTwo;
 
                 bool isValid { false };
@@ -21,15 +22,7 @@ int main()
                 {
                         isValid = board.update(
                                 playerPtr,
-                                playerPtr->getInput());
+                                playerPtr->playerTurn());
                 }
-
-                if (board.isWinner(playerPtr))
-                {
-                        std::cout << "Player " << playerPtr->ID() << " wins!" << "!\n";
-                        break;
-                }
-
-                turnCount = !turnCount;
         }
 }
