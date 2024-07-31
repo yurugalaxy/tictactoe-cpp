@@ -38,22 +38,54 @@ void Board::printBoard()
         std::cout << "\n\n";
 }
 
-bool Board::validSquare(const int square, const int side)
+bool Board::isFull()
 {
-        const Coordinate coord = Conversion::convert(square);
+        for (int i {0}; i < 3; ++i)
+        {
+                for (int j {0}; j < 3; j++)
+                {
+                        if (!m_board[i][j])
+                                return false;
+                }
+        }
+        std::cout << "Draw!\n";
+        return true;
+}
 
+bool Board::validSquare(const Coordinate& coord)
+{
         if (m_board[coord[0]][coord[1]] > 0)
         {
                 std::cout << "That square is taken! Choose another.\n";
                 return false;
         }
 
-        updateBoard(coord, side);
         return true;
 }
 
-void Board::updateBoard(const Coordinate& coord, const int side)
+bool Board::update(Player* playerPtr, const int square)
 {
-        m_board[coord[0]][coord[1]] = side;
+        const Coordinate coord = Conversion::convert(square);
+
+        if (!validSquare(coord))
+                return false;
+
+        playerPtr->addHistory(square);
+
+        m_board[coord[0]][coord[1]] = playerPtr->ID();
         printBoard();
+        return true;
+}
+
+bool Board::isWinner(Player* playerPtr)
+{
+        if (isFull())
+                return true;
+
+        for (const int &e : playerPtr->history())
+        {
+                if (e == 3)
+                        return true;
+        }
+        return false;
 }
