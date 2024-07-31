@@ -9,12 +9,10 @@ using SquareCoords = std::array<int, 2>;
 class TicTacToe
 {
 private:
-        static BoardArray m_board;
+        BoardArray m_board;
 
 public:
-        BoardArray BoardState();
-
-        enum WinLine
+        enum WinningLine
         {
                 rowTop,
                 rowMid,
@@ -27,16 +25,15 @@ public:
         };
 
 private:
-        bool isBoardFull();
-        static SquareCoords ConvertToCoords(int square);
-        static int ConvertToSquare(SquareCoords coords);
+        bool IsBoardFull(BoardArray board);
+        SquareCoords ConvertToCoords(int square);
+        int ConvertToSquare(SquareCoords coords);
 
 public:
-        static bool IsSquareValid(int square);
-        void PrintBoard() const;
-        void UpdateBoard(int square, char side);
+        BoardArray BoardState(){ return m_board; };
+        bool IsSquareValid(int square);
+        void PrintBoard(BoardArray board);
+        void UpdateBoard(BoardArray board, int square, char side);
         WinConditions TestWinConditions(char side);
-        bool DetermineWinner(const WinConditions& conditions);
+        bool DetermineWinner(WinConditions conditions);
 };
-
-void playGame();

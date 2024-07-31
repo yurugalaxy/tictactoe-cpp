@@ -1,10 +1,18 @@
 #pragma once
-#include "game.hpp"
 
 class Player
 {
+private:
+        int m_playerID {};
+        bool m_human {};
+
 public:
-        static int HumanTurn();
-        static int ComputerTurn(const WinConditions& conditions);
-        static int EmptyCheck(int square);
+        Player(int ID, bool human)
+                : m_playerID { ID },
+                  m_human { human }
+        {}
+
+        int getInput();
+        int ID() { return m_playerID; };
+
 };

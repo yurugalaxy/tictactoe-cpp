@@ -1,26 +1,20 @@
 #include <iostream>
 
 #include "game.hpp"
-#include "player.hpp"
 
-BoardArray TicTacToe::BoardState()
+void TicTacToe::PrintBoard(const BoardArray board)
 {
-        return m_board;
-}
-
-void TicTacToe::PrintBoard() const
-{
-        std::cout << (m_board[0][0]?m_board[0][0]:'1') << " | "
-                  << (m_board[0][1]?m_board[0][1]:'2') << " | "
-                  << (m_board[0][2]?m_board[0][2]:'3')
+        std::cout << (board[0][0]?board[0][0]:'1') << " | "
+                  << (board[0][1]?board[0][1]:'2') << " | "
+                  << (board[0][2]?board[0][2]:'3')
                   << "\n--+---+--\n"
-                  << (m_board[1][0]?m_board[1][0]:'4') << " | "
-                  << (m_board[1][1]?m_board[1][1]:'5') << " | "
-                  << (m_board[1][2]?m_board[1][2]:'6')
+                  << (board[1][0]?board[1][0]:'4') << " | "
+                  << (board[1][1]?board[1][1]:'5') << " | "
+                  << (board[1][2]?board[1][2]:'6')
                   << "\n--+---+--\n"
-                  << (m_board[2][0]?m_board[2][0]:'7') << " | "
-                  << (m_board[2][1]?m_board[2][1]:'8') << " | "
-                  << (m_board[2][2]?m_board[2][2]:'9')
+                  << (board[2][0]?board[2][0]:'7') << " | "
+                  << (board[2][1]?board[2][1]:'8') << " | "
+                  << (board[2][2]?board[2][2]:'9')
                   << '\n';
 }
 
@@ -48,19 +42,19 @@ int TicTacToe::ConvertToSquare(const SquareCoords coords)
         }
 }
 
-void TicTacToe::UpdateBoard(const int square, const char side)
+void TicTacToe::UpdateBoard(BoardArray board, const int square, const char side)
 {
         const SquareCoords converted = ConvertToCoords(square);
-        m_board[converted[0]][converted[1]] = side;
+        board[converted[0]][converted[1]] = side;
 }
 
-bool TicTacToe::isBoardFull()
+bool TicTacToe::IsBoardFull(BoardArray board)
 {
         for (int i {0}; i < 3; ++i)
         {
                 for (int j {0}; j < 3; j++)
                 {
-                        if (!m_board[i][j])
+                        if (!board[i][j])
                         {
                                 return false;
                         }
@@ -107,10 +101,10 @@ WinConditions TicTacToe::TestWinConditions(const char side)
         return conditions;
 }
 
-bool TicTacToe::DetermineWinner(const WinConditions& conditions)
+bool TicTacToe::DetermineWinner(const WinConditions conditions)
 {
 
-        if (isBoardFull())
+        if (IsBoardFull())
         {
                 std::cout << "Draw!\n";
                 return true;
@@ -125,39 +119,4 @@ bool TicTacToe::DetermineWinner(const WinConditions& conditions)
                 }
         }
         return false;
-}
-
-void playGame()
-{
-        TicTacToe game;
-
-        bool gameOver{};
-        bool isCrossTurn{ true };
-        char currentPlayer{ 'x' };
-        int currentSquare{};
-        WinConditions currConditions{};
-
-        while (!gameOver)
-        {
-                if (isCrossTurn)
-                {
-                        currentPlayer = 'x';
-                        currentSquare = Player::HumanTurn();
-                }
-                else
-                {
-                        currentPlayer = 'o';
-                        currentSquare = Player::EmptyCheck(Player::ComputerTurn(currConditions));
-                        // currentSquare = Player::ComputerTurn(currConditions);
-                }
-
-                game.UpdateBoard(currentSquare, currentPlayer);
-
-                currConditions = game.TestWinConditions(currentPlayer);
-                gameOver = game.DetermineWinner(currConditions);
-
-                game.PrintBoard();
-
-                isCrossTurn = !isCrossTurn;
-        }
 }
