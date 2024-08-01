@@ -5,7 +5,6 @@
 
 void Game::update(const CoordPlayer& coord)
 {
-        std::cout << coord[0] << coord[1] << coord[2] << '\n';
         m_board[coord[0]][coord[1]] = coord[2];
 }
 
@@ -48,5 +47,20 @@ bool Game::isValid(const Coordinate& coord)
         if (m_board[coord[0]][coord[1]] > 0)
                 return false;
 
+        return true;
+}
+
+
+bool Game::isFull()
+{
+        for (int i {0}; i < 3; ++i)
+        {
+                for (int j {0}; j < 3; j++)
+                {
+                        if (!m_board[i][j])
+                                return false;
+                }
+        }
+        std::cout << "Draw!\n";
         return true;
 }

@@ -29,11 +29,17 @@ private:
         WinConditions m_history{};
 
 public:
-        Player(int ID)
+        Player(int ID, bool human)
                 : m_playerID { ID}
+                , m_human { human }
         {
         }
         int ID() { return m_playerID; };
+        WinConditions history() { return m_history; };
         CoordPlayer playerTurn(Game& game, int ID);
+        CoordPlayer computerTurn(Game& game, Player& opponent, int ID);
+        Coordinate checkHistory(Game& game, WinConditions history);
         void addHistory(int square);
+        bool isWinner();
+        bool isHuman() { return m_human; };
 };
