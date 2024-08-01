@@ -1,12 +1,12 @@
 #include "player.hpp"
-#include "game.hpp"
+#include "board.hpp"
 
 #include "conversion.hpp"
 #include "validation.hpp"
 #include "arrayinfo.hpp"
 #include "random.hpp"
 
-CoordPlayer Player::playerTurn(Game& game, int ID)
+CoordPlayer Player::playerTurn(Board& game, int ID)
 {
         while (true)
         {
@@ -35,11 +35,12 @@ CoordPlayer Player::playerTurn(Game& game, int ID)
                 }
 
         addHistory(square);
+        moveSquare(square);
         return { coord[0], coord[1], ID};
         }
 }
 
-CoordPlayer Player::computerTurn(Game& game, Player& opponent, int ID)
+CoordPlayer Player::computerTurn(Board& game, Player& opponent, int ID)
 {
         Coordinate coord { Random::get(0, 2), Random::get(0, 2)};
         int randCorner { 0 };
@@ -86,7 +87,10 @@ CoordPlayer Player::computerTurn(Game& game, Player& opponent, int ID)
         //Overwrite if we're about to win
         checkHistory(game, history());
 
-        addHistory(Conversion::convert(coord));
+        int square { Conversion::convert(coord)};
+
+        addHistory(square);
+        moveSquare(square);
         return {coord[0], coord[1], ID};
 }
 
@@ -132,7 +136,7 @@ bool Player::isWinner()
         return false;
 }
 
-Coordinate Player::checkHistory(Game& game, WinConditions history)
+Coordinate Player::checkHistory(Board& game, WinConditions history)
 {
         Coordinate coord {};
 

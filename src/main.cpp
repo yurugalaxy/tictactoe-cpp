@@ -1,13 +1,13 @@
-#include "board.hpp"
 #include "player.hpp"
-#include "game.hpp"
+#include "board.hpp"
 
 int main()
 {
 
-        Game game{};
-        Player playerOne { 1, false };
-        Player playerTwo { 2, false };
+        Board square1{ 1 };
+        Board* squarePtr { &square1 };
+        Player playerOne { 1, true };
+        Player playerTwo { 2, true };
         Player* playerPtr { &playerOne };
         Player* opponentPtr { &playerTwo };
         bool win { false };
@@ -16,23 +16,25 @@ int main()
         while (true)
         {
                 if (playerPtr->isHuman())
-                        game.update(
+                        squarePtr->update(
                                 playerPtr->playerTurn(
-                                game, playerPtr->ID()));
+                                *squarePtr, playerPtr->ID()));
                 else
-                        game.update(
+                        squarePtr->update(
                                 playerPtr->computerTurn(
-                                game, *opponentPtr, playerPtr->ID()));
-                game.printBoard();
+                                *squarePtr, *opponentPtr, playerPtr->ID()));
+                squarePtr->printBoard();
 
                 if (playerPtr->isWinner())
                         break;
 
-                if (game.isFull())
+                if (squarePtr->isFull())
                         break;
 
+                squarePtr->printBoard();
                 playerPtr = currPlayer ? &playerOne : &playerTwo;
                 opponentPtr = currPlayer ? &playerTwo : &playerOne;
                 currPlayer = !currPlayer;
+
         }
 }

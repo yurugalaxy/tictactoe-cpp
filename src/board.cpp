@@ -1,21 +1,21 @@
 #include <iostream>
 
-#include "game.hpp"
+#include "board.hpp"
 #include "arrayinfo.hpp"
 
-void Game::update(const CoordPlayer& coord)
+void Board::update(const CoordPlayer& coord)
 {
         m_board[coord[0]][coord[1]] = coord[2];
 }
 
-void Game::printBoard()
+void Board::printBoard()
 {
         int count { 1 };
         int row { 1 };
         const int rowTotal { ArrayInfo::rowLength(m_board)};
         const int colTotal { ArrayInfo::colLength(m_board)};
 
-        std::cout << '\n';
+        std::cout << '\n' << "Square " << instance() << ": \n";
         for (auto& arow : m_board)
         {
                 int col { 1 };
@@ -42,7 +42,7 @@ void Game::printBoard()
         std::cout << "\n\n";
 }
 
-bool Game::isValid(const Coordinate& coord)
+bool Board::isValid(const Coordinate& coord)
 {
         if (m_board[coord[0]][coord[1]] > 0)
                 return false;
@@ -50,8 +50,7 @@ bool Game::isValid(const Coordinate& coord)
         return true;
 }
 
-
-bool Game::isFull()
+bool Board::isFull()
 {
         for (int i {0}; i < 3; ++i)
         {
