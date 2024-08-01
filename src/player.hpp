@@ -35,4 +35,5 @@ public:
         }
         int ID() { return m_playerID; };
         CoordPlayer playerTurn(Game& game, int ID);
+        void addHistory(int square);
 };

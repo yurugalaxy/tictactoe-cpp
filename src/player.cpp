@@ -31,6 +31,35 @@ CoordPlayer Player::playerTurn(Game& game, int ID)
                         std::cout << "That square is taken! Choose another.\n";
                         continue;
                 }
+
+        addHistory(square);
         return { coord[0], coord[1], ID};
         }
+}
+
+void Player::addHistory(const int square)
+{
+        if (square < 4)
+                m_history[rowTop] += 1;
+
+        if (square > 3 && square < 7)
+                m_history[rowMid] += 1;
+
+        if (square > 6)
+                m_history[rowBot] += 1;
+
+        if (square == 1 || square == 4 || square == 7)
+                m_history[colLeft] += 1;
+
+        if (square == 2 || square == 5 || square == 8)
+                m_history[colMid] += 1;
+
+        if (square == 3 || square == 6 || square == 9)
+                m_history[colRight] += 1;
+
+        if (square == 1 || square == 5 || square == 9)
+                m_history[diagRight] += 1;
+
+        if (square == 3 || square == 5 || square == 7)
+                m_history[diagLeft] += 1;
 }
