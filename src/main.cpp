@@ -1,28 +1,37 @@
-#include <iostream>
-
 #include "board.hpp"
 #include "player.hpp"
+#include "game.hpp"
 
 int main()
 {
-        Board board;
-        Player playerOne(1, true);
-        Player playerTwo(2, true);
-        Player* playerPtr { &playerOne };
-        bool turnCount { true };
+        // Board board;
+        // Player playerOne(1, true);
+        // Player playerTwo(2, true);
+        // Player* playerPtr { &playerOne };
+        // bool turnCount { false };
 
-        while (!board.isWinner(playerPtr))
-        {
-                turnCount = !turnCount;
-                playerPtr = turnCount ? &playerOne : &playerTwo;
+        // while (!board.isWinner(playerPtr))
+        // {
+                // turnCount = !turnCount;
+                // playerPtr = turnCount ? &playerOne : &playerTwo;
+                //
+                // bool isValid { false };
+                //
+                // while (!isValid)
+                // {
+                //         isValid = board.update(
+                //                 playerPtr,
+                //                 playerPtr->playerTurn());
+                // }
 
-                bool isValid { false };
+                // board.update(&playerOne, 2);
+        // }
 
-                while (!isValid)
-                {
-                        isValid = board.update(
-                                playerPtr,
-                                playerPtr->playerTurn());
-                }
-        }
+        Game game{};
+        Player playerOne{1};
+
+        game.update(playerOne.playerTurn(game, playerOne.ID()));
+        game.printBoard();
+        game.update(playerOne.playerTurn(game, playerOne.ID()));
+        game.printBoard();
 }

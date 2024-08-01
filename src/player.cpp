@@ -1,9 +1,10 @@
-#include <iostream>
-
 #include "player.hpp"
+#include "game.hpp"
+
+#include "conversion.hpp"
 #include "validation.hpp"
 
-int Player::playerTurn()
+CoordPlayer Player::playerTurn(Game& game, int ID)
 {
         while (true)
         {
@@ -24,39 +25,12 @@ int Player::playerTurn()
         }
 
         Validation::ignoreLine();
-        return square;
+        Coordinate coord = Conversion::convert(square);
+                if (!game.isValid(coord))
+                {
+                        std::cout << "That square is taken! Choose another.\n";
+                        continue;
+                }
+        return { coord[0], coord[1], ID};
         }
-}
-
-int ComputerTurn()
-{
-        using Array2D = std::array<std::array<int, 3>, 3>;
-        return 0;
-}
-
-void Player::addHistory(const int square)
-{
-        if (square < 4)
-                m_history[rowTop] += 1;
-
-        if (square > 3 && square < 7)
-                m_history[rowMid] += 1;
-
-        if (square > 6)
-                m_history[rowBot] += 1;
-
-        if (square == 1 || square == 4 || square == 7)
-                m_history[colLeft] += 1;
-
-        if (square == 2 || square == 5 || square == 8)
-                m_history[colMid] += 1;
-
-        if (square == 3 || square == 6 || square == 9)
-                m_history[colRight] += 1;
-
-        if (square == 1 || square == 5 || square == 9)
-                m_history[diagRight] += 1;
-
-        if (square == 3 || square == 5 || square == 7)
-                m_history[diagLeft] += 1;
 }

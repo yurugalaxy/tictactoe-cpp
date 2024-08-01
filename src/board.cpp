@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "board.hpp"
+#include "player.hpp"
 #include "conversion.hpp"
 #include "arrayinfo.hpp"
 
@@ -8,24 +9,24 @@ void Board::printBoard()
 {
         int count { 1 };
         int row { 1 };
-        const int rowTotal { ArrayInfo::rowLength(m_board)};
-        const int colTotal { ArrayInfo::colLength(m_board)};
+        const int rowTotal { ArrayInfo::rowLength(board())};
+        const int colTotal { ArrayInfo::colLength(board())};
 
         std::cout << '\n';
-        for (auto& arow : m_board)
+        for (auto& arow : board())
         {
                 int col { 1 };
-                for (auto& acol : arow)
+                for (const auto& acol : arow)
                 {
-                        switch (acol)
-                        {
-                        case 1:
-                                { std::cout << 'x'; break; }
-                        case 2:
-                                { std::cout << 'o'; break; }
-                        default:
-                                std::cout << count;
-                        }
+                        // switch (acol)
+                        // {
+                        // case 1:
+                        //         { std::cout << 'x'; break; }
+                        // case 2:
+                        //         { std::cout << 'o'; break; }
+                        // default:
+                        //         std::cout << count;
+                        // }
                         if (col < colTotal)
                                 std::cout << " | ";
                         ++col;
@@ -44,7 +45,7 @@ bool Board::isFull()
         {
                 for (int j {0}; j < 3; j++)
                 {
-                        if (!m_board[i][j])
+                        if (!board()[i][j])
                                 return false;
                 }
         }
@@ -54,7 +55,7 @@ bool Board::isFull()
 
 bool Board::validSquare(const Coordinate& coord)
 {
-        if (m_board[coord[0]][coord[1]] > 0)
+        if (board()[coord[0]][coord[1]] > 0)
         {
                 std::cout << "That square is taken! Choose another.\n";
                 return false;
@@ -72,7 +73,7 @@ bool Board::update(Player* playerPtr, const int square)
 
         playerPtr->addHistory(square);
 
-        m_board[coord[0]][coord[1]] = playerPtr->ID();
+        board()[coord[0]][coord[1]] = playerPtr->ID();
         printBoard();
         return true;
 }
