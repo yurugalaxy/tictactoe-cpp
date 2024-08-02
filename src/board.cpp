@@ -15,7 +15,6 @@ void Board::printBoard()
         const int rowTotal { ArrayInfo::rowLength(m_board)};
         const int colTotal { ArrayInfo::colLength(m_board)};
 
-        std::cout << '\n' << "Square " << ": \n";
         for (auto& arow : m_board)
         {
                 int col { 1 };

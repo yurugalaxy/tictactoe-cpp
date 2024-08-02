@@ -1,36 +1,22 @@
 #include "game.hpp"
 
-void Game::play()
+int Game::play()
 {
-        Board board;
-        Player playerOne { 1, true };
-        Player playerTwo { 2, true };
-        Player* playerPtr { &playerOne };
-        Player* opponentPtr { &playerTwo };
-        bool win { false };
-        bool currPlayer { false };
+        if (playerPtr->isHuman())
+                board.update(
+                        playerPtr->playerTurn(
+                        board, playerPtr->ID()));
+        else
+                board.update(
+                        playerPtr->computerTurn(
+                        board, *opponentPtr, playerPtr->ID()));
+        board.printBoard();
 
-        while (true)
-        {
-                if (playerPtr->isHuman())
-                        board.update(
-                                playerPtr->playerTurn(
-                                board, playerPtr->ID()));
-                else
-                        board.update(
-                                playerPtr->computerTurn(
-                                board, *opponentPtr, playerPtr->ID()));
-                board.printBoard();
+        playerPtr->isWinner();
 
-                if (playerPtr->isWinner())
-                        break;
+        board.isFull();
 
-                if (board.isFull())
-                        break;
+        int next { playerPtr->squareToPlay() };
 
-                playerPtr = currPlayer ? &playerOne : &playerTwo;
-                opponentPtr = currPlayer ? &playerTwo : &playerOne;
-                currPlayer = !currPlayer;
-
-        }
+        return next;
 }

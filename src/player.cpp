@@ -10,6 +10,7 @@ CoordPlayer Player::playerTurn(Board& game, int ID)
 {
         while (true)
         {
+        std::cout << "It's player " << ID << "'s turn!\n";
         std::cout << "Enter a square to take: ";
         int square {};
         std::cin >> square;
