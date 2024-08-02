@@ -15,19 +15,13 @@ class Board
 private:
         playBoard m_board{};
         int m_currentPlayer { 1 };
-        int m_squareInstance { };
 
 public:
 
 private:
 
 public:
-        Board(int x)
-                : m_squareInstance { x }
-        {
-        }
         playBoard board() { return m_board; };
-        int instance() { return m_squareInstance; };
         void update(const CoordPlayer& coord);
         void printBoard();
         bool isValid(const Coordinate& coord);
