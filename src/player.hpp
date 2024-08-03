@@ -2,7 +2,7 @@
 
 #include <array>
 
-#include "game.hpp"
+#include "board.hpp"
 
 using Coordinate = std::array<int, 2>;
 using WinConditions = std::array<int, 8>;
@@ -24,9 +24,10 @@ class Player
         };
 
 private:
-        int m_playerID{};
-        bool m_human{};
-        WinConditions m_history{};
+        int m_playerID {};
+        bool m_human {};
+        WinConditions m_history {};
+        int m_lastSquare {};
 
 public:
         Player(int ID, bool human)
@@ -36,9 +37,11 @@ public:
         }
         int ID() { return m_playerID; };
         WinConditions history() { return m_history; };
-        CoordPlayer playerTurn(Game& game, int ID);
-        CoordPlayer computerTurn(Game& game, Player& opponent, int ID);
-        Coordinate checkHistory(Game& game, WinConditions history);
+        void moveSquare(int square) { m_lastSquare = square; };
+        int squareToPlay() { return m_lastSquare; };
+        CoordPlayer playerTurn(Board& game, int ID);
+        CoordPlayer computerTurn(Board& game, Player& opponent, int ID);
+        Coordinate checkHistory(Board& game, WinConditions history);
         void addHistory(int square);
         bool isWinner();
         bool isHuman() { return m_human; };

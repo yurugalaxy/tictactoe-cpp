@@ -1,32 +1,26 @@
 #pragma once
 
-#include <array>
-
-class Player;
-
-using Board = std::array<std::array<int, 3>, 3>;
-using Coordinate = std::array<int, 2>;
-using CoordPlayer = std::array<int, 3>;
-using WinConditions = std::array<int, 8>;
+#include "board.hpp"
+#include "player.hpp"
 
 class Game
 {
-
 private:
-        Board m_board{};
-        int m_currentPlayer { 1 };
+        int m_instance {};
 
 public:
+        Board board {};
+        int instance() { return m_instance; }
+        Player playerOne {1, true};
+        Player playerTwo { 2, true };
+        Player* playerPtr { &playerOne };
+        Player* opponentPtr { &playerTwo };
+        bool currPlayer { false };
+        bool win { false };
 
-private:
-
-public:
-        Board board() { return m_board; }; 
-        void update(const CoordPlayer& coord);
-        void printBoard();
-        bool isValid(const Coordinate& coord);
-        bool isFull();
-        friend CoordPlayer playerTurn(Game& game, int ID);
-        friend CoordPlayer computerTurn(Game& game, Player& opponent, int ID);
-        friend Coordinate checkHistory(Game& game, WinConditions history);
+        explicit Game(int instance)
+                : m_instance { instance }
+{
+}
+        int play();
 };
