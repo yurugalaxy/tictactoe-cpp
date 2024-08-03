@@ -14,4 +14,6 @@ add_executable(titato src/main.cpp
         src/game.hpp
         src/player.cpp
         src/player.hpp
+        src/board.cpp
+        src/board.hpp
 )

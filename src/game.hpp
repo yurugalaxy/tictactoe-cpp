@@ -10,13 +10,15 @@ private:
 
 public:
         Board board {};
+        int instance() { return m_instance; }
         Player playerOne {1, true};
         Player playerTwo { 2, true };
         Player* playerPtr { &playerOne };
         Player* opponentPtr { &playerTwo };
         bool currPlayer { false };
         bool win { false };
-        Game(int instance)
+
+        explicit Game(int instance)
                 : m_instance { instance }
 {
 }

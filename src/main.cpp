@@ -2,6 +2,67 @@
 
 #include "game.hpp"
 
+static std::array<int, 8> s_overWinCond {};
+
+void addOverHistory(const int square)
+{
+        enum WinningLine
+        {
+        rowTop,
+        rowMid,
+        rowBot,
+        colLeft,
+        colMid,
+        colRight,
+        diagRight,
+        diagLeft
+        };
+
+        if (square < 4)
+                s_overWinCond[rowTop] += 1;
+
+        if (square > 3 && square < 7)
+                s_overWinCond[rowMid] += 1;
+
+        if (square > 6)
+                s_overWinCond[rowBot] += 1;
+
+        if (square == 1 || square == 4 || square == 7)
+                s_overWinCond[colLeft] += 1;
+
+        if (square == 2 || square == 5 || square == 8)
+                s_overWinCond[colMid] += 1;
+
+        if (square == 3 || square == 6 || square == 9)
+                s_overWinCond[colRight] += 1;
+
+        if (square == 1 || square == 5 || square == 9)
+                s_overWinCond[diagRight] += 1;
+
+        if (square == 3 || square == 5 || square == 7)
+                s_overWinCond[diagLeft] += 1;
+
+        for (int e : s_overWinCond)
+        {
+                std::cout << e << ' ';
+        }
+}
+
+bool overWinner()
+{
+        for (const int &e : s_overWinCond)
+        {
+                if (e == 3)
+                {
+                        std::cout << "Player "
+                                  << " wins!!" << '\n';
+                        return true;
+                }
+        }
+
+        return false;
+}
+
 int main()
 {
         Game game1 { 1 };
@@ -14,9 +75,9 @@ int main()
         Game game8 { 8 };
         Game game9 { 9 };
         Game* currPtr { &game1 };
-        int currInstance { 1 };
         int next { 1 };
         int overPlayer { false };
+        std::array<int, 2> winLocation {};
 
         while (true)
                 {
@@ -52,26 +113,36 @@ int main()
                                 break;
                 }
 
-        std::cout << '\n' << "Square " << next << ": \n";
+                std::cout << '\n' << "Square " << next << ": \n";
 
-        overPlayer = !overPlayer;
+                overPlayer = !overPlayer;
 
-        currPtr->playerPtr =
-                overPlayer ? &currPtr->playerOne : &currPtr->playerTwo;
+                currPtr->playerPtr =
+                        overPlayer ? &currPtr->playerOne : &currPtr->playerTwo;
 
-        currPtr->opponentPtr =
-                overPlayer ? &currPtr->playerTwo : &currPtr->playerOne;
+                currPtr->opponentPtr =
+                        overPlayer ? &currPtr->playerTwo : &currPtr->playerOne;
 
-        currPtr->board.printBoard();
-        next = currPtr->play();
+                currPtr->board.printBoard();
+                next = currPtr->play();
 
-        currPtr->playerPtr =
-                overPlayer ? &currPtr->playerOne : &currPtr->playerTwo;
+                int winSquare { currPtr->instance() };
+                bool win { currPtr->playerPtr->isWinner() };
 
-        currPtr->opponentPtr =
-                overPlayer ? &currPtr->playerTwo : &currPtr->playerOne;
+                if (win)
+                        addOverHistory(winSquare);
 
-        currPtr->currPlayer =
-                overPlayer;
-                }
+                if(overWinner())
+                        std::cout << "Win!\n";
+
+
+                currPtr->playerPtr =
+                        overPlayer ? &currPtr->playerOne : &currPtr->playerTwo;
+
+                currPtr->opponentPtr =
+                        overPlayer ? &currPtr->playerTwo : &currPtr->playerOne;
+
+                currPtr->currPlayer =
+                        overPlayer;
+        }
 }
