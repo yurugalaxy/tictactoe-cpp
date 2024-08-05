@@ -8,4 +8,6 @@ link_libraries(SDL2)
 add_executable(titato src/main.cpp
         src/tictactoe.cpp
         src/tictactoe.hpp
+        src/user_interface.cpp
+        src/user_interface.hpp
 )

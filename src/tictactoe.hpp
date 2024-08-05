@@ -1,10 +1,6 @@
 #pragma once
 
 #include <array>
-#include <iostream>
-
-#include "conversion.hpp"
-#include "validation.hpp"
 
 struct TicTacToe
 {
@@ -35,8 +31,7 @@ struct TicTacToe
 
 class Game
 {
- private:
-  std::array<std::array<char, 3>, 3> m_board {};
+private:
   TicTacToe::Position m_boardPos {};
   TicTacToe::History m_p1History {};
   TicTacToe::History m_p2History {};
@@ -44,18 +39,21 @@ class Game
   TicTacToe::Player m_currentPlayer {};
   bool m_gameOver {};
   int m_winner {};
- public:
- private:
- public:
+
+public:
+  std::array<std::array<char, 3>, 3> m_board {};
+
+private:
+public:
   Game();
 
-  void init();
+  std::array<std::array<char, 3>, 3> board() const { return m_board; };
   bool boardFull();
-  bool validSquare() { return m_board[m_boardPos.X][m_boardPos.Y] == ' '; }
+  bool validSquare() const { return m_board[m_boardPos.X][m_boardPos.Y] == ' '; }
   void getUserInput();
   void addHistory(int square);
   bool winner();
   void takeSquare();
   void switchPlayer();
-  bool gameOver() { return m_gameOver; };
+  bool gameOver() const { return m_gameOver; };
 };

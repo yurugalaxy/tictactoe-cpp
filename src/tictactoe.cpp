@@ -1,4 +1,8 @@
+#include <iostream>
+
 #include "tictactoe.hpp"
+#include "conversion.hpp"
+#include "validation.hpp"
 
 Game::Game()
 {
@@ -25,7 +29,21 @@ void Game::switchPlayer()
     m_histPointer = &m_p1History;
     m_currentPlayer = TicTacToe::Player::NOUGHTS;
   }
+}
 
+bool Game::boardFull()
+{
+  for (int i{0}; i < 3; ++i)
+  {
+    for (int j{0}; j < 3; j++)
+    {
+      if (m_board[i][j] == ' ')
+        return false;
+    }
+  }
+  std::cout << "Draw!\n";
+  m_gameOver = true;
+  return true;
 }
 
 void Game::addHistory(const int square)
@@ -107,7 +125,6 @@ void Game::getUserInput()
     addHistory(square);
     return;
   }
-  return;
 }
 
 void Game::takeSquare()
@@ -116,6 +133,8 @@ void Game::takeSquare()
   std::cout << "Player " << m_currentPlayer << " has taken "
             << m_boardPos.X << ' ' << m_boardPos.Y << '\n';
 
-  winner();
+  if (boardFull() || winner())
+    return;
+
   switchPlayer();
 }
