@@ -41,15 +41,14 @@ private:
   int m_winner {};
 
 public:
-  std::array<std::array<char, 3>, 3> m_board {};
+  std::array<std::array<char, 3>, 3> board {};
 
 private:
 public:
   Game();
 
-  std::array<std::array<char, 3>, 3> board() const { return m_board; };
   bool boardFull();
-  bool validSquare() const { return m_board[m_boardPos.X][m_boardPos.Y] == ' '; }
+  bool validSquare() const { return board[m_boardPos.X][m_boardPos.Y] == ' '; }
   void getUserInput();
   void addHistory(int square);
   bool winner();

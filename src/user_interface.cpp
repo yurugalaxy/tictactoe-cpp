@@ -50,7 +50,7 @@ void printLine(const int i, Game& game)
   {
     for (int j { 0 }; j < 3; ++j)
     {
-      switch (game.m_board[i][j])
+      switch (game.board[i][j])
       {
         case TicTacToe::Player::CROSSES:
           line += g_O[k];
@@ -83,4 +83,11 @@ void printBoard(Game& game)
   printLine(1, game);
   printSeparator();
   printLine(2, game);
+}
+
+void draw(Game& game)
+{
+  clear();
+  printLogo();
+  printBoard(game);
 }

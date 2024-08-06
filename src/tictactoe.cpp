@@ -6,7 +6,7 @@
 
 Game::Game()
 {
-  m_board = 
+  board = 
     {{
     {' ', ' ', ' '},
     {' ', ' ', ' '},
@@ -37,7 +37,7 @@ bool Game::boardFull()
   {
     for (int j{0}; j < 3; j++)
     {
-      if (m_board[i][j] == ' ')
+      if (board[i][j] == ' ')
         return false;
     }
   }
@@ -129,7 +129,7 @@ void Game::getUserInput()
 
 void Game::takeSquare()
 {
-  m_board[m_boardPos.X][m_boardPos.Y] = m_currentPlayer;
+  board[m_boardPos.X][m_boardPos.Y] = m_currentPlayer;
   std::cout << "Player " << m_currentPlayer << " has taken "
             << m_boardPos.X << ' ' << m_boardPos.Y << '\n';
 
