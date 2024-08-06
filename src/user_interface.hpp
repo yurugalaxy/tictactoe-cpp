@@ -11,4 +11,3 @@ void printLogo();
 void printLine(int i, Game& game);
 void printSeparator();
 void printBoard(Game& game);
-void draw(Game& game);

@@ -55,4 +55,6 @@ public:
   void takeSquare();
   void switchPlayer();
   bool gameOver() const { return m_gameOver; };
+  void draw();
+  void update();
 };

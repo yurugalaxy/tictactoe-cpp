@@ -84,10 +84,3 @@ void printBoard(Game& game)
   printSeparator();
   printLine(2, game);
 }
-
-void draw(Game& game)
-{
-  clear();
-  printLogo();
-  printBoard(game);
-}

@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "tictactoe.hpp"
+#include "user_interface.hpp"
 #include "conversion.hpp"
 #include "validation.hpp"
 
@@ -137,4 +138,17 @@ void Game::takeSquare()
     return;
 
   switchPlayer();
+}
+
+void Game::draw()
+{
+  clear();
+  printLogo();
+  printBoard(*this);
+}
+
+void Game::update()
+{
+  getUserInput();
+  takeSquare();
 }

@@ -7,9 +7,7 @@ int main()
 
   while (!game.gameOver())
   {
-    draw(game);
-    game.getUserInput();
-    game.takeSquare();
+    game.update();
+    game.draw();
   }
-  printBoard(game);
 }
