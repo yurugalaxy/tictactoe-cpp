@@ -4,15 +4,15 @@
 std::string g_nextMessage{};
 
 std::array<std::string_view, 3> g_X{
-    "  ▚ ▞  "
-  , "   █   "
-  , "  ▞ ▚  "
+    "\x1B[31m  ▚ ▞  \x1B[0m"
+  , "\x1B[31m   █   \x1B[0m"
+  , "\x1B[31m  ▞ ▚  \x1B[0m"
 };
 
 std::array<std::string_view, 3> g_O{
-    "  ▛▔▜  "
-  , "  ▏ ▕  "
-  , "  ▙-▟  "
+    "\x1B[36m  ▛▔▜  \x1B[0m"
+  , "\x1B[36m  ▏ ▕  \x1B[0m"
+  , "\x1B[36m  ▙-▟  \x1B[0m"
 };
 
 void clear()
@@ -52,10 +52,10 @@ void printLine(const int i, Game& game)
     {
       switch (game.board[i][j])
       {
-        case TicTacToe::Player::CROSSES:
+        case TicTacToe::Player::NOUGHTS:
           line += g_O[k];
         break;
-        case TicTacToe::Player::NOUGHTS:
+        case TicTacToe::Player::CROSSES:
           line += g_X[k];
         break;
         default:
